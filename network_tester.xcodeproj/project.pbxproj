@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3679EB8127B928D5001282AF /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3679EB8027B928D5001282AF /* main.swift */; };
-		3679EB8927B92C35001282AF /* SwiftyPing in Frameworks */ = {isa = PBXBuildFile; productRef = 3679EB8827B92C35001282AF /* SwiftyPing */; };
+		36E25F5529661107002BCA93 /* CheckProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E25F5429661107002BCA93 /* CheckProtocol.swift */; };
+		36E25F572966148B002BCA93 /* HTTPCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E25F562966148B002BCA93 /* HTTPCheck.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,6 +28,8 @@
 		3679EB7D27B928D5001282AF /* network_tester */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = network_tester; sourceTree = BUILT_PRODUCTS_DIR; };
 		3679EB8027B928D5001282AF /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		3679EB8A27B92DC7001282AF /* network_tester.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = network_tester.entitlements; sourceTree = "<group>"; };
+		36E25F5429661107002BCA93 /* CheckProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckProtocol.swift; sourceTree = "<group>"; };
+		36E25F562966148B002BCA93 /* HTTPCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPCheck.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,7 +37,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3679EB8927B92C35001282AF /* SwiftyPing in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +64,8 @@
 			children = (
 				3679EB8A27B92DC7001282AF /* network_tester.entitlements */,
 				3679EB8027B928D5001282AF /* main.swift */,
+				36E25F5429661107002BCA93 /* CheckProtocol.swift */,
+				36E25F562966148B002BCA93 /* HTTPCheck.swift */,
 			);
 			path = network_tester;
 			sourceTree = "<group>";
@@ -83,7 +87,6 @@
 			);
 			name = network_tester;
 			packageProductDependencies = (
-				3679EB8827B92C35001282AF /* SwiftyPing */,
 			);
 			productName = network_tester;
 			productReference = 3679EB7D27B928D5001282AF /* network_tester */;
@@ -114,7 +117,6 @@
 			);
 			mainGroup = 3679EB7427B928D5001282AF;
 			packageReferences = (
-				3679EB8727B92C35001282AF /* XCRemoteSwiftPackageReference "SwiftyPing" */,
 			);
 			productRefGroup = 3679EB7E27B928D5001282AF /* Products */;
 			projectDirPath = "";
@@ -130,6 +132,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36E25F5529661107002BCA93 /* CheckProtocol.swift in Sources */,
+				36E25F572966148B002BCA93 /* HTTPCheck.swift in Sources */,
 				3679EB8127B928D5001282AF /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,7 +261,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = network_tester/network_tester.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6Y5B9KT4Y6;
+				DEVELOPMENT_TEAM = 32V428TQMV;
 				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -269,7 +273,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = network_tester/network_tester.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6Y5B9KT4Y6;
+				DEVELOPMENT_TEAM = 32V428TQMV;
 				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -298,25 +302,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		3679EB8727B92C35001282AF /* XCRemoteSwiftPackageReference "SwiftyPing" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/samiyr/SwiftyPing.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		3679EB8827B92C35001282AF /* SwiftyPing */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3679EB8727B92C35001282AF /* XCRemoteSwiftPackageReference "SwiftyPing" */;
-			productName = SwiftyPing;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3679EB7527B928D5001282AF /* Project object */;
 }
