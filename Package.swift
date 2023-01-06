@@ -12,11 +12,10 @@ let package = Package(
         .executable(name: "network-tester", targets: ["network-tester"])
     ],
     dependencies: [
-        .package(url: "https://github.com/samiyr/SwiftyPing.git", branch: "master")
     ],
     targets: [
         .executableTarget(
             name: "network-tester",
-            dependencies: ["SwiftyPing"]),
+            dependencies: []),
     ]
 )
