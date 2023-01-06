@@ -1,8 +1,8 @@
 import Foundation
 
-let check = HTTPCheck(url: URL(string: "http://home.local")!)
+let check = HTTPCheck(url: URL(string: "https://google.com")!)
 check.performCheck()
 
-RunLoop.current.run(mode: .default, before: .now + 5)
+_ = RunLoop.main.run(mode: .default, before: Date(timeIntervalSinceNow: 5.0))
 
 print(check.status)

@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 class HTTPCheck: CheckProtocol {
     var status: CheckStatus
