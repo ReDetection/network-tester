@@ -6,6 +6,7 @@ import FoundationNetworking
 class HTTPCheck: CheckProtocol {
     var status: CheckStatus
     var request: URLRequest
+    var callback: ()->() = {}
 
     init(url: URL) {
         request = URLRequest(url: url)
@@ -17,6 +18,10 @@ class HTTPCheck: CheckProtocol {
         status = .inProgress
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            defer{
+                self.callback()
+            }
+            
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
                 self.status = .failed
                 return

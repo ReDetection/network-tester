@@ -1,8 +1,14 @@
 import Foundation
 
+var finished = false
 let check = HTTPCheck(url: URL(string: "https://google.com")!)
+check.callback = {
+    print(check.status)
+    finished = true
+}
 check.performCheck()
 
-_ = RunLoop.main.run(mode: .default, before: Date(timeIntervalSinceNow: 5.0))
+while !finished{
+    _ = RunLoop.main.run(mode: .default, before: Date(timeIntervalSinceNow: 0.5))
+}
 
-print(check.status)
