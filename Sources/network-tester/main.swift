@@ -3,10 +3,9 @@ import Foundation
 var finished = false
 var checks: [CheckProtocol] = []
 
-let googleCheck = HTTPCheck(url: URL(string: "https://google.com")!)
-let checkHomeAssistant = HTTPCheck(url: URL(string: "http://192.168.21.217/")!)
-checks.append(googleCheck)
-checks.append(checkHomeAssistant)
+checks.append(HTTPCheck(url: URL(string: "https://google.com")!))
+checks.append(HTTPCheck(url: URL(string: "http://192.168.21.217/")!))
+checks.append(HTTPCheck(url: URL(string: "http://home.local")!))
 
 for check in checks {
     addCallback(check: check)
@@ -24,8 +23,9 @@ func addCallback(check: CheckProtocol){
     check.callback = {
         if let httpCheck = check as? HTTPCheck{
             print("checking URL " + httpCheck.request.url!.absoluteString)
+            print("status code is \(httpCheck.statusCode ?? 0)")
         }
-        print(check.status)
+        print("result is \(check.status)\n")
         finished = true
     }
 }

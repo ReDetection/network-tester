@@ -7,6 +7,7 @@ class HTTPCheck: CheckProtocol {
     var status: CheckStatus
     var callback: ()->() = {}
     var request: URLRequest
+    var statusCode: Int?
 
     init(url: URL) {
         request = URLRequest(url: url)
@@ -22,13 +23,14 @@ class HTTPCheck: CheckProtocol {
                 self.callback()
             }
             
-            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            guard let httpResponse = response as? HTTPURLResponse else {
                 self.status = .failed
                 return
             }
-            self.status = .success
+
+            self.statusCode = httpResponse.statusCode
+            self.status = httpResponse.statusCode == 200 ? .success : .failed
         }
         task.resume()
     }
-
 }
