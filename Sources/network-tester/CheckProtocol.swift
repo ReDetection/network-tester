@@ -7,8 +7,9 @@ enum CheckStatus {
     case failed
 }
 
-protocol CheckProtocol {
+protocol CheckProtocol: AnyObject {
     var status: CheckStatus { get }
+    var callback: ()->() { get set }
 
     func performCheck()
 }

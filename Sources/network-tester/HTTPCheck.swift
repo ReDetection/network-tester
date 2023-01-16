@@ -5,8 +5,8 @@ import FoundationNetworking
 
 class HTTPCheck: CheckProtocol {
     var status: CheckStatus
-    var request: URLRequest
     var callback: ()->() = {}
+    var request: URLRequest
 
     init(url: URL) {
         request = URLRequest(url: url)
