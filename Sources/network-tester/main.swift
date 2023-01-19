@@ -1,6 +1,5 @@
 import Foundation
 
-var finished = false
 var checks: [CheckProtocol] = []
 
 checks.append(HTTPCheck(url: URL(string: "https://google.com")!))
@@ -9,10 +8,9 @@ checks.append(HTTPCheck(url: URL(string: "http://home.local")!))
 
 for check in checks {
     addCallback(check: check)
-    finished = false
     check.performCheck()
 
-    while !finished{
+    while !check.isFinished{
     _ = RunLoop.main.run(mode: .default, before: Date(timeIntervalSinceNow: 0.5))
     }
 }
@@ -26,6 +24,5 @@ func addCallback(check: CheckProtocol){
             print("status code is \(httpCheck.statusCode ?? 0)")
         }
         print("result is \(check.status)\n")
-        finished = true
     }
 }

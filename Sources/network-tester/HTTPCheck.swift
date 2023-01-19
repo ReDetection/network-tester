@@ -6,21 +6,25 @@ import FoundationNetworking
 class HTTPCheck: CheckProtocol {
     var status: CheckStatus
     var callback: ()->() = {}
+    var isFinished: Bool
     var request: URLRequest
     var statusCode: Int?
 
     init(url: URL) {
+        status = CheckStatus.notLaunchedYet
+        isFinished = false
         request = URLRequest(url: url)
         request.httpMethod = "GET"
-        status = CheckStatus.notLaunchedYet
     }
 
     func performCheck() {
         status = .inProgress
+        isFinished = false
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             defer{
                 self.callback()
+                self.isFinished = true
             }
             
             guard let httpResponse = response as? HTTPURLResponse else {

@@ -10,6 +10,7 @@ enum CheckStatus {
 protocol CheckProtocol: AnyObject {
     var status: CheckStatus { get }
     var callback: ()->() { get set }
+    var isFinished: Bool { get }
 
     func performCheck()
 }
