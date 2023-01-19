@@ -21,8 +21,18 @@ func addCallback(check: CheckProtocol){
     check.callback = {
         if let httpCheck = check as? HTTPCheck{
             print("checking URL " + httpCheck.request.url!.absoluteString)
-            print("status code is \(httpCheck.statusCode ?? 0)")
+            if let responseCodeString = httpCheck.statusCode?.asString {
+                print("status code is " + responseCodeString)
+            } else {
+                print("no response")
+            }
         }
         print("result is \(check.status)\n")
+    }
+}
+
+extension Int {
+    var asString: String {
+        return String(self)
     }
 }
