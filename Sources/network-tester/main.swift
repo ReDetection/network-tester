@@ -9,10 +9,11 @@ checks.append(HTTPCheck(url: URL(string: "http://home.local")!))
 for check in checks {
     addCallback(check: check)
     check.performCheck()
+}
 
-    while !check.isFinished{
+while !checks.allSatisfy({ check in
+    check.isFinished }){
     _ = RunLoop.main.run(mode: .default, before: Date(timeIntervalSinceNow: 0.5))
-    }
 }
 
 print("checks all done")
