@@ -2,9 +2,9 @@ import Foundation
 
 var checks: [CheckProtocol] = []
 
-checks.append(HTTPCheck(url: URL(string: "https://google.com")!))
-checks.append(HTTPCheck(url: URL(string: "http://192.168.21.217/")!))
-checks.append(HTTPCheck(url: URL(string: "http://home.local")!))
+checks.append(HTTPCheck(url: URL(string: "https://google.com")!, expectedStatusCode: 200))
+checks.append(HTTPCheck(url: URL(string: "http://192.168.21.217/")!, expectedStatusCode: 404))
+// checks.append(HTTPCheck(url: URL(string: "http://home.local")!))
 
 for check in checks {
     addCallback(check: check)

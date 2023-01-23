@@ -9,12 +9,14 @@ class HTTPCheck: CheckProtocol {
     var isFinished: Bool
     var request: URLRequest
     var statusCode: Int?
+    var expectedCode: Int
 
-    init(url: URL) {
+    init(url: URL, expectedStatusCode: Int = 200) {
         status = CheckStatus.notLaunchedYet
         isFinished = false
         request = URLRequest(url: url)
         request.httpMethod = "GET"
+        expectedCode = expectedStatusCode
     }
 
     func performCheck() {
@@ -33,7 +35,7 @@ class HTTPCheck: CheckProtocol {
             }
 
             self.statusCode = httpResponse.statusCode
-            self.status = httpResponse.statusCode == 200 ? .success : .failed
+            self.status = httpResponse.statusCode == self.expectedCode ? .success : .failed
         }
         task.resume()
     }
