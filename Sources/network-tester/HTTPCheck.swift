@@ -11,9 +11,23 @@ class HTTPCheck: CheckProtocol {
     var statusCode: Int?
     var expectedCode: Int
 
+    var debugInformation: String {
+        var debugInfoString: String = "checking URL \(request.url!)\n"
+        debugInfoString.append("check status is \(status)\n")
+
+        if let statusCodeString: String = statusCode?.asString {
+            debugInfoString.append("status code is " + statusCodeString + "\n")
+        } else if isFinished{
+            debugInfoString.append("no response\n")
+        }
+
+        return debugInfoString
+    }
+
     init(url: URL, expectedStatusCode: Int = 200) {
         status = CheckStatus.notLaunchedYet
         isFinished = false
+        // debugInformation = "Check not launched, status is unknown"
         request = URLRequest(url: url)
         request.httpMethod = "GET"
         expectedCode = expectedStatusCode
@@ -38,5 +52,11 @@ class HTTPCheck: CheckProtocol {
             self.status = httpResponse.statusCode == self.expectedCode ? .success : .failed
         }
         task.resume()
+    }
+}
+
+extension Int {
+    var asString: String {
+        return String(self)
     }
 }

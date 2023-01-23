@@ -11,6 +11,7 @@ protocol CheckProtocol: AnyObject {
     var status: CheckStatus { get }
     var callback: ()->() { get set }
     var isFinished: Bool { get }
+    var debugInformation: String { get }
 
     func performCheck()
 }
