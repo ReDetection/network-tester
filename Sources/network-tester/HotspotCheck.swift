@@ -3,33 +3,33 @@ import Foundation
 import FoundationNetworking
 #endif
 
-class HTTPCheck: CheckProtocol {
+private let appleCaptiveCheckURL = "http://captive.apple.com/hotspot-detect.html"
+
+class HotspotCheck: CheckProtocol {
     var status: CheckStatus
     var callback: ()->() = {}
     var isFinished: Bool
     var request: URLRequest
     var statusCode: Int?
-    var expectedCode: Int
+    var responseUrl: String = ""
 
     var debugInformation: String {
-        var debugInfoString: String = "checking URL \(request.url!)\n"
-        debugInfoString.append("check status is \(status)\n")
-
-        if let statusCodeString: String = statusCode?.asString {
-            debugInfoString.append("status code is " + statusCodeString + "\n")
-        } else if isFinished{
-            debugInfoString.append("no response\n")
+        var debugInfoString: String = "checking for hotspot via URL \(request.url!)\n"
+        debugInfoString.append("response URL is " + (responseUrl.isEmpty ? "unknowkn" : "\(responseUrl)\n"))
+        if (status == .success) {
+            debugInfoString.append("hotspot not detected\n")
+        } else {
+            debugInfoString.append("URL has changed, there's probably a hotspot\n")
         }
 
         return debugInfoString
     }
 
-    init(url: URL, expectedStatusCode: Int = 200) {
+    init() {
         status = CheckStatus.notLaunchedYet
         isFinished = false
-        request = URLRequest(url: url)
+        request = URLRequest(url: URL(string: appleCaptiveCheckURL)!)
         request.httpMethod = "GET"
-        expectedCode = expectedStatusCode
     }
 
     func performCheck() {
@@ -47,15 +47,9 @@ class HTTPCheck: CheckProtocol {
                 return
             }
 
-            self.statusCode = httpResponse.statusCode
-            self.status = httpResponse.statusCode == self.expectedCode ? .success : .failed
+            self.responseUrl = httpResponse.url?.absoluteString ?? ""
+            self.status = (self.responseUrl == appleCaptiveCheckURL) ? .success : .failed
         }
         task.resume()
-    }
-}
-
-extension Int {
-    var asString: String {
-        return String(self)
     }
 }
