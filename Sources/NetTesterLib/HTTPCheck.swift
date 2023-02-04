@@ -3,15 +3,15 @@ import Foundation
 import FoundationNetworking
 #endif
 
-class HTTPCheck: CheckProtocol {
-    var status: CheckStatus
-    var callback: ()->() = {}
-    var isFinished: Bool
+public class HTTPCheck: CheckProtocol {
+    public var status: CheckStatus
+    public var callback: ()->() = {}
+    public var isFinished: Bool
     var request: URLRequest
     var statusCode: Int?
     var expectedCode: Int
 
-    var debugInformation: String {
+    public var debugInformation: String {
         var debugInfoString: String = "checking URL \(request.url!)\n"
         debugInfoString.append("check status is \(status)\n")
 
@@ -24,7 +24,7 @@ class HTTPCheck: CheckProtocol {
         return debugInfoString
     }
 
-    init(url: URL, expectedStatusCode: Int = 200) {
+    public init(url: URL, expectedStatusCode: Int = 200) {
         status = CheckStatus.notLaunchedYet
         isFinished = false
         request = URLRequest(url: url)
@@ -32,7 +32,7 @@ class HTTPCheck: CheckProtocol {
         expectedCode = expectedStatusCode
     }
 
-    func performCheck() {
+    public func performCheck() {
         status = .inProgress
         isFinished = false
 

@@ -5,15 +5,15 @@ import FoundationNetworking
 
 private let appleCaptiveCheckURL = "http://captive.apple.com/hotspot-detect.html"
 
-class HotspotCheck: CheckProtocol {
-    var status: CheckStatus
-    var callback: ()->() = {}
-    var isFinished: Bool
+public class HotspotCheck: CheckProtocol {
+    public var status: CheckStatus
+    public var callback: ()->() = {}
+    public var isFinished: Bool
     var request: URLRequest
     var statusCode: Int?
     var responseUrl: String = ""
 
-    var debugInformation: String {
+    public var debugInformation: String {
         var debugInfoString: String = "checking for hotspot via URL \(request.url!)\n"
         debugInfoString.append("response URL is " + (responseUrl.isEmpty ? "unknowkn" : "\(responseUrl)\n"))
         if (status == .success) {
@@ -25,14 +25,14 @@ class HotspotCheck: CheckProtocol {
         return debugInfoString
     }
 
-    init() {
+    public init() {
         status = CheckStatus.notLaunchedYet
         isFinished = false
         request = URLRequest(url: URL(string: appleCaptiveCheckURL)!)
         request.httpMethod = "GET"
     }
 
-    func performCheck() {
+    public func performCheck() {
         status = .inProgress
         isFinished = false
 

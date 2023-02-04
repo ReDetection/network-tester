@@ -9,13 +9,15 @@ let package = Package(
         .macOS(.v12),
     ],
     products: [
+        .library(name: "NetTesterLib", targets: ["NetTesterLib"]),
         .executable(name: "network-tester", targets: ["network-tester"])
     ],
     dependencies: [
     ],
     targets: [
+        .target(name: "NetTesterLib"),
         .executableTarget(
             name: "network-tester",
-            dependencies: []),
+            dependencies: ["NetTesterLib"]),
     ]
 )
