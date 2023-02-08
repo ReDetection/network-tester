@@ -4,9 +4,10 @@
 import PackageDescription
 
 let package = Package(
-    name: "network-tester",
+    name: "network_tester",
     platforms: [
         .macOS(.v12),
+        .iOS(.v13)
     ],
     products: [
         .library(name: "NetTesterLib", targets: ["NetTesterLib"]),
