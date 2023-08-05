@@ -2,13 +2,51 @@ import UIKit
 import NetTesterLib
 
 class ViewController: UIViewController {
-    let check = HotspotCheck()
+    var checks: [any CheckProtocol] = []
+    let runner = CheckRunner()
+    @IBOutlet private var tableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
+        checks = [
+            HotspotCheck(),
+            HTTPCheck(url: URL(string: "https://ya.ru")!),
+        ]
+
+        for check in checks {
+            check.callback = { [weak self] in self?.refresh() }
+        }
+
+        recheck()
     }
 
+    private func recheck() {
+        runner.run(checks: checks)
+    }
+
+    private func refresh() {
+        RunLoop.main.perform(inModes: [.default]) {
+            self.tableView.reloadSections(.init(integer: 0), with: .automatic)
+        }
+    }
 
 }
 
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        checks.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BasicCheck", for: indexPath)
+        let check = checks[indexPath.row]
+        cell.textLabel?.text = "\(type(of: check))"
+        cell.detailTextLabel?.text = "\(check.status)"
+        return cell
+    }
+}
+
+extension ViewController: UITableViewDelegate {
+
+}
