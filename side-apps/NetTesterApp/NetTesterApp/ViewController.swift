@@ -39,10 +39,8 @@ extension ViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "BasicCheck", for: indexPath)
-        let check = checks[indexPath.row]
-        cell.textLabel?.text = "\(type(of: check))"
-        cell.detailTextLabel?.text = "\(check.status)"
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BasicCheck", for: indexPath) as! CheckCell
+        cell.check = checks[indexPath.row]
         return cell
     }
 }
