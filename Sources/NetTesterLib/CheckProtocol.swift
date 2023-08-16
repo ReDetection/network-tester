@@ -12,6 +12,7 @@ public protocol CheckProtocol: AnyObject {
     var callback: ()->() { get set }
     var isFinished: Bool { get }
     var debugInformation: String { get }
+    var name: String? { get set }
 
     func performCheck()
 }

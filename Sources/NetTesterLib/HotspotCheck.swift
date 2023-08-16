@@ -9,6 +9,7 @@ public class HotspotCheck: CheckProtocol {
     public var status: CheckStatus
     public var callback: ()->() = {}
     public var isFinished: Bool
+    public var name: String?
     var request: URLRequest
     var statusCode: Int?
     var responseUrl: String = ""

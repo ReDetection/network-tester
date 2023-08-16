@@ -5,7 +5,7 @@ class CheckCell: UITableViewCell {
     var check: CheckProtocol? {
         didSet {
             guard let check else { return }
-            textLabel?.text = "\(type(of: check))"
+            textLabel?.text = check.name ?? "\(type(of: check))"
             detailTextLabel?.text = check.debugInformation
             imageView?.image = check.status.cellImage
             imageView?.tintColor = check.status.cellImageTint

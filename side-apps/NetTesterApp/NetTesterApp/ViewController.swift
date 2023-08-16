@@ -10,8 +10,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         checks = [
-            HotspotCheck(),
-            HTTPCheck(url: URL(string: "https://ya.ru")!),
+            HotspotCheck().named("Internet/hotspot detection"),
+            HTTPCheck(url: URL(string: "https://ya.ru")!).named("Yandex availability"),
         ]
 
         for check in checks {
@@ -47,4 +47,10 @@ extension ViewController: UITableViewDataSource {
 
 extension ViewController: UITableViewDelegate {
 
+}
+extension CheckProtocol {
+    func named(_ name: String) -> Self {
+        self.name = name
+        return self
+    }
 }
