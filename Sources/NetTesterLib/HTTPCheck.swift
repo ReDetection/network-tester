@@ -11,10 +11,11 @@ public class HTTPCheck: CheckProtocol {
     var request: URLRequest
     var statusCode: Int?
     var expectedCode: Int
+    let timeout: TimeInterval
 
     public var debugInformation: String {
-        var debugInfoString: String = "checking URL \(request.url!)\n"
-        debugInfoString.append("check status is \(status)\n")
+        var debugInfoString: String = "checking URL \(request.url!) with a timeout of \(timeout)s...\n"
+        debugInfoString.append("check status: \(status)\n")
 
         if let statusCodeString: String = statusCode?.asString {
             debugInfoString.append("status code is " + statusCodeString + "\n")
@@ -25,19 +26,23 @@ public class HTTPCheck: CheckProtocol {
         return debugInfoString
     }
 
-    public init(url: URL, expectedStatusCode: Int = 200) {
+    public init(url: URL, expectedStatusCode: Int = 200, timeout: TimeInterval = 10) {
         status = CheckStatus.notLaunchedYet
         isFinished = false
         request = URLRequest(url: url)
         request.httpMethod = "GET"
         expectedCode = expectedStatusCode
+        self.timeout = timeout
     }
 
     public func performCheck() {
         status = .inProgress
         isFinished = false
 
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let config = URLSessionConfiguration.default
+        config.timeoutIntervalForRequest = timeout
+        let session = URLSession(configuration: config)
+        let task = session.dataTask(with: request) { data, response, error in
             defer{
                 self.callback()
                 self.isFinished = true
