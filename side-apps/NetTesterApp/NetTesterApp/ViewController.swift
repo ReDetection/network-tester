@@ -19,10 +19,20 @@ class ViewController: UIViewController {
         }
 
         recheck()
+
+        tableView.refreshControl = .init()
+        tableView.refreshControl?.addAction(.init(handler: { [weak self] _ in
+            self?.recheck()
+        }), for: .valueChanged)
     }
 
     private func recheck() {
-        runner.run(checks: checks)
+        runner.run(checks: checks) { [weak self] in
+            RunLoop.main.perform(inModes: [.default]) {
+                self?.tableView.refreshControl?.endRefreshing()
+            }
+        }
+        refresh()
     }
 
     private func refresh() {
