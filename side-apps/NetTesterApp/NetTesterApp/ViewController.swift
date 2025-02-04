@@ -18,7 +18,10 @@ class ViewController: UIViewController {
         ]
 
         for check in checks {
-            check.callback = { [weak self] in self?.refresh() }
+            check.callback = { [weak self, weak check] in
+                guard let check, let self else { return }
+                self.refresh(check: check)
+            }
         }
 
         recheck()
@@ -38,8 +41,12 @@ class ViewController: UIViewController {
         refresh()
     }
 
-    private func refresh() {
+    private func refresh(check: CheckProtocol? = nil) {
         RunLoop.main.perform(inModes: [.default]) {
+            if let check, let index = self.checks.firstIndex(where: { $0 === check }) {
+                self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+                return
+            }
             self.tableView.reloadSections(.init(integer: 0), with: .automatic)
         }
     }
