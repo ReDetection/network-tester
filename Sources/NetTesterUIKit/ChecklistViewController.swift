@@ -1,8 +1,9 @@
 import UIKit
 import NetTesterLib
 
+@MainActor
 open class ChecklistViewController: UIViewController {
-    public var checks: [any CheckProtocol] = [
+    nonisolated(unsafe) public var checks: [any CheckProtocol] = [
         HotspotCheck().named("Default Internet/hotspot detection"),
     ]
     let runner = CheckRunner()
@@ -13,11 +14,8 @@ open class ChecklistViewController: UIViewController {
 
         tableView.register(NetworkCheckCell.self, forCellReuseIdentifier: NetworkCheckCell.defaultReuseIdentifier)
 
-        for check in checks {
-            check.callback = { [weak self, weak check] in
-                guard let check, let self else { return }
-                self.refresh(check: check)
-            }
+        runner.didUpdate = { [weak self] check in
+            self?.refresh(check: check)
         }
 
         recheck()
@@ -35,13 +33,20 @@ open class ChecklistViewController: UIViewController {
     }
 
     private func recheck() {
-        runner.run(checks: checks)
+        Task.detached { [weak self] in
+            await self?.asyncRecheck()
+        }
+    }
+
+    private func asyncRecheck() async {
+        await runner.run(checks: checks)
         tableView.refreshControl?.endRefreshing()
         refresh()
     }
 
-    private func refresh(check: CheckProtocol? = nil) {
-        RunLoop.main.perform(inModes: [.default]) {
+    nonisolated private func refresh(check: CheckProtocol? = nil) {
+        RunLoop.main.perform(inModes: [.default]) { [weak self] in
+            guard let self else { return }
             if let check, let index = self.checks.firstIndex(where: { $0 === check }) {
                 self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
                 return

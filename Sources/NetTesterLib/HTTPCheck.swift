@@ -5,7 +5,6 @@ import FoundationNetworking
 
 public class HTTPCheck: CheckProtocol {
     public var status: CheckStatus
-    public var callback: ()->() = {}
     public var isFinished: Bool
     public var name: String?
     var request: URLRequest
@@ -31,32 +30,34 @@ public class HTTPCheck: CheckProtocol {
         isFinished = false
         request = URLRequest(url: url)
         request.httpMethod = "GET"
+        request.timeoutInterval = timeout
         expectedCode = expectedStatusCode
         self.timeout = timeout
     }
 
-    public func performCheck() {
+    @discardableResult
+    public func performCheck() async -> CheckStatus {
         status = .inProgress
         isFinished = false
 
-        let config = URLSessionConfiguration.default
-        config.timeoutIntervalForRequest = timeout
-        let session = URLSession(configuration: config)
-        let task = session.dataTask(with: request) { data, response, error in
-            defer{
-                self.callback()
-                self.isFinished = true
-            }
+        do {
+            let (_, response) = try await URLSession.shared.data(for: request)
             
             guard let httpResponse = response as? HTTPURLResponse else {
-                self.status = .failed
-                return
+                status = .failed
+                isFinished = true
+                return status
             }
 
-            self.statusCode = httpResponse.statusCode
-            self.status = httpResponse.statusCode == self.expectedCode ? .success : .failed
+            statusCode = httpResponse.statusCode
+            status = httpResponse.statusCode == expectedCode ? .success : .failed
+            isFinished = true
+            return status
+        } catch {
+            status = .failed
+            isFinished = true
+            return status
         }
-        task.resume()
     }
 }
 

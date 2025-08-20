@@ -7,12 +7,12 @@ private let appleCaptiveCheckURL = "http://captive.apple.com/hotspot-detect.html
 
 public class HotspotCheck: CheckProtocol {
     public var status: CheckStatus
-    public var callback: ()->() = {}
     public var isFinished: Bool
     public var name: String?
     var request: URLRequest
     var statusCode: Int?
     var responseUrl: String = ""
+    var requestError: Error?
 
     public var debugInformation: String {
         var debugInfoString: String = "checking for hotspot via URL \(request.url!)\n"
@@ -33,24 +33,28 @@ public class HotspotCheck: CheckProtocol {
         request.httpMethod = "GET"
     }
 
-    public func performCheck() {
+    @discardableResult
+    public func performCheck() async -> CheckStatus {
         status = .inProgress
         isFinished = false
 
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            defer{
-                self.callback()
-                self.isFinished = true
-            }
+        do {
+            let (_, response) = try await URLSession.shared.data(for: request)
             
             guard let httpResponse = response as? HTTPURLResponse else {
-                self.status = .failed
-                return
+                status = .failed
+                isFinished = true
+                return status
             }
 
-            self.responseUrl = httpResponse.url?.absoluteString ?? ""
-            self.status = (self.responseUrl == appleCaptiveCheckURL) ? .success : .failed
+            responseUrl = httpResponse.url?.absoluteString ?? ""
+            status = (responseUrl == appleCaptiveCheckURL) ? .success : .failed
+        } catch {
+            status = .failed
+            requestError = error
         }
-        task.resume()
+
+        isFinished = true
+        return status
     }
 }

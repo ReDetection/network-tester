@@ -7,14 +7,15 @@ public enum CheckStatus {
     case failed
 }
 
-public protocol CheckProtocol: AnyObject {
+/// Strictly speaking, it is not sendable, but I only send it once mutations are done..
+public protocol CheckProtocol: AnyObject, Sendable {
     var status: CheckStatus { get }
-    var callback: ()->() { get set }
     var isFinished: Bool { get }
     var debugInformation: String { get }
     var name: String? { get set }
 
-    func performCheck()
+    @discardableResult
+    func performCheck() async -> CheckStatus
 }
 
 extension CheckProtocol {

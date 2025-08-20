@@ -1,15 +1,17 @@
 import Foundation
 
 public class CheckRunner {
-    private let queue = DispatchQueue(label: "CheckRunner", qos: .background, attributes: .concurrent)
+    public var didUpdate: (any CheckProtocol)->() = { _ in }
     public init() {}
 
-    public func run(checks: [any CheckProtocol], completion: @escaping () -> () = {}) {
-        for check in checks {
-            queue.async {
-                check.performCheck()
+    public func run(checks: [any CheckProtocol]) async {
+        await withTaskGroup(of: Void.self) { [weak self] group in
+            for check in checks {
+                group.addTask {
+                    await check.performCheck()
+                    self?.didUpdate(check)
+                }
             }
         }
-        queue.async(flags: .barrier, execute: completion)
     }
 }
