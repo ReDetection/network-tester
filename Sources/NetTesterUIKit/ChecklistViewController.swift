@@ -6,7 +6,7 @@ open class ChecklistViewController: UIViewController {
         HotspotCheck().named("Default Internet/hotspot detection"),
     ]
     let runner = CheckRunner()
-    @IBOutlet private var tableView: UITableView!
+    private let tableView: UITableView = UITableView()
 
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +26,12 @@ open class ChecklistViewController: UIViewController {
         tableView.refreshControl?.addAction(.init(handler: { [weak self] _ in
             self?.recheck()
         }), for: .valueChanged)
+    }
+
+    open override func loadView() {
+        view = tableView
+        tableView.dataSource = self
+        tableView.allowsSelection = false
     }
 
     private func recheck() {
