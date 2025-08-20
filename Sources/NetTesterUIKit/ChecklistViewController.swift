@@ -11,6 +11,8 @@ open class ChecklistViewController: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView.register(NetworkCheckCell.self, forCellReuseIdentifier: NetworkCheckCell.defaultReuseIdentifier)
+
         for check in checks {
             check.callback = { [weak self, weak check] in
                 guard let check, let self else { return }
@@ -50,7 +52,7 @@ extension ChecklistViewController: UITableViewDataSource {
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "BasicCheck", for: indexPath) as! NetworkCheckCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: NetworkCheckCell.defaultReuseIdentifier, for: indexPath) as! NetworkCheckCell
         cell.check = checks[indexPath.row]
         return cell
     }
