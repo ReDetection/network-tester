@@ -17,9 +17,9 @@ class NetworkCheckCell: UITableViewCell {
         didSet {
             guard let check else { return }
             textLabel?.text = check.name ?? "\(type(of: check))"
-            detailTextLabel?.text = check.debugInformation
             imageView?.image = check.status.cellImage
             imageView?.tintColor = check.status.cellImageTint
+            detailTextLabel?.text = check.status == .failed ? check.debugInformation : nil
         }
     }
 }
