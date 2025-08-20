@@ -7,16 +7,18 @@ let package = Package(
     name: "network_tester",
     platforms: [
         .macOS(.v12),
-        .iOS(.v13)
+        .iOS(.v14)
     ],
     products: [
         .library(name: "NetTesterLib", targets: ["NetTesterLib"]),
+        .library(name: "NetTesterUIKit", targets: ["NetTesterUIKit"]),
         .executable(name: "network-tester", targets: ["network-tester"])
     ],
     dependencies: [
     ],
     targets: [
         .target(name: "NetTesterLib"),
+        .target(name: "NetTesterUIKit", dependencies: ["NetTesterLib"]),
         .executableTarget(
             name: "network-tester",
             dependencies: ["NetTesterLib"]),

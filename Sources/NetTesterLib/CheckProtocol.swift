@@ -16,3 +16,10 @@ public protocol CheckProtocol: AnyObject {
 
     func performCheck()
 }
+
+extension CheckProtocol {
+    public func named(_ name: String) -> Self {
+        self.name = name
+        return self
+    }
+}

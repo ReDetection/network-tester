@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		363DAF5C2A7F83EE005E34EA /* CheckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363DAF5B2A7F83EE005E34EA /* CheckCell.swift */; };
+		363445282E56078000CC9511 /* NetTesterUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 363445272E56078000CC9511 /* NetTesterUIKit */; };
 		36B7E1952994244900F397A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B7E1942994244900F397A0 /* AppDelegate.swift */; };
 		36B7E1972994244900F397A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B7E1962994244900F397A0 /* SceneDelegate.swift */; };
 		36B7E1992994244900F397A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B7E1982994244900F397A0 /* ViewController.swift */; };
@@ -18,7 +18,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		363DAF5B2A7F83EE005E34EA /* CheckCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckCell.swift; sourceTree = "<group>"; };
 		36B7E1912994244900F397A0 /* NetTesterApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetTesterApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36B7E1942994244900F397A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		36B7E1962994244900F397A0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -35,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				363445282E56078000CC9511 /* NetTesterUIKit in Frameworks */,
 				36B7E1AC2994246800F397A0 /* NetTesterLib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -70,7 +70,6 @@
 				36B7E19D2994244A00F397A0 /* Assets.xcassets */,
 				36B7E19F2994244A00F397A0 /* LaunchScreen.storyboard */,
 				36B7E1A22994244A00F397A0 /* Info.plist */,
-				363DAF5B2A7F83EE005E34EA /* CheckCell.swift */,
 			);
 			path = NetTesterApp;
 			sourceTree = "<group>";
@@ -108,6 +107,7 @@
 			name = NetTesterApp;
 			packageProductDependencies = (
 				36B7E1AB2994246800F397A0 /* NetTesterLib */,
+				363445272E56078000CC9511 /* NetTesterUIKit */,
 			);
 			productName = NetTesterApp;
 			productReference = 36B7E1912994244900F397A0 /* NetTesterApp.app */;
@@ -164,7 +164,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				363DAF5C2A7F83EE005E34EA /* CheckCell.swift in Sources */,
 				36B7E1992994244900F397A0 /* ViewController.swift in Sources */,
 				36B7E1952994244900F397A0 /* AppDelegate.swift in Sources */,
 				36B7E1972994244900F397A0 /* SceneDelegate.swift in Sources */,
@@ -312,9 +311,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 32V428TQMV;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = GM6F547Y46;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NetTesterApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -329,6 +330,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.redetection.networktester.NetTesterApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Wildcard Development";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -340,9 +343,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 32V428TQMV;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = GM6F547Y46;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NetTesterApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -357,6 +362,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.redetection.networktester.NetTesterApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Wildcard Development";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -387,6 +394,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		363445272E56078000CC9511 /* NetTesterUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NetTesterUIKit;
+		};
 		36B7E1AB2994246800F397A0 /* NetTesterLib */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = NetTesterLib;

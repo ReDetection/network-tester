@@ -1,7 +1,7 @@
 import UIKit
 import NetTesterLib
 
-class CheckCell: UITableViewCell {
+class NetworkCheckCell: UITableViewCell {
     var check: CheckProtocol? {
         didSet {
             guard let check else { return }
@@ -11,8 +11,6 @@ class CheckCell: UITableViewCell {
             imageView?.tintColor = check.status.cellImageTint
         }
     }
-
-
 }
 
 
