@@ -15,9 +15,12 @@ let package = Package(
         .executable(name: "network-tester", targets: ["network-tester"])
     ],
     dependencies: [
+        .package(url: "https://github.com/apple/swift-async-dns-resolver", .upToNextMinor(from: "0.4.0")),
     ],
     targets: [
-        .target(name: "NetTesterLib"),
+        .target(name: "NetTesterLib", dependencies: [
+            .product(name: "AsyncDNSResolver", package: "swift-async-dns-resolver"),
+        ]),
         .target(name: "NetTesterUIKit", dependencies: ["NetTesterLib"]),
         .executableTarget(
             name: "network-tester",
