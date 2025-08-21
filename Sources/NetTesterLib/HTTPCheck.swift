@@ -31,7 +31,7 @@ final public class HTTPCheck: ThrowableCheck {
         status = httpResponse.statusCode == expectedCode ? .success : .failed
 
         if let statusCodeString: String = statusCode?.asString {
-            debugInformation = "status code is \(statusCodeString)\nresponse is \(data.count)"
+            debugInformation = "status code is \(statusCodeString)\nbody length is \(data.count)"
         }
     }
 }
