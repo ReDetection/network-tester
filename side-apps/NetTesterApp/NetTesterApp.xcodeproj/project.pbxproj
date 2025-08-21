@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		363445282E56078000CC9511 /* NetTesterUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 363445272E56078000CC9511 /* NetTesterUIKit */; };
 		3634452F2E57377C00CC9511 /* ApplePlatformChecks in Frameworks */ = {isa = PBXBuildFile; productRef = 3634452E2E57377C00CC9511 /* ApplePlatformChecks */; };
+		363445312E5770BD00CC9511 /* proxmox.local.cer in Resources */ = {isa = PBXBuildFile; fileRef = 363445302E5770BD00CC9511 /* proxmox.local.cer */; };
 		36B7E1952994244900F397A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B7E1942994244900F397A0 /* AppDelegate.swift */; };
 		36B7E1972994244900F397A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B7E1962994244900F397A0 /* SceneDelegate.swift */; };
 		36B7E1992994244900F397A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B7E1982994244900F397A0 /* ViewController.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		363445302E5770BD00CC9511 /* proxmox.local.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = proxmox.local.cer; sourceTree = "<group>"; };
 		36B7E1912994244900F397A0 /* NetTesterApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetTesterApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36B7E1942994244900F397A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		36B7E1962994244900F397A0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				36B7E19D2994244A00F397A0 /* Assets.xcassets */,
 				36B7E19F2994244A00F397A0 /* LaunchScreen.storyboard */,
 				36B7E1A22994244A00F397A0 /* Info.plist */,
+				363445302E5770BD00CC9511 /* proxmox.local.cer */,
 			);
 			path = NetTesterApp;
 			sourceTree = "<group>";
@@ -157,6 +160,7 @@
 				36B7E1A12994244A00F397A0 /* LaunchScreen.storyboard in Resources */,
 				36B7E19E2994244A00F397A0 /* Assets.xcassets in Resources */,
 				36B7E19C2994244900F397A0 /* Main.storyboard in Resources */,
+				363445312E5770BD00CC9511 /* proxmox.local.cer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

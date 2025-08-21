@@ -13,7 +13,8 @@ class ViewController: ChecklistViewController {
             HTTPCheck(url: URL(string: "http://pihole.local/admin/")!).named("DNS pihole.local"),
             HTTPCheck(url: URL(string: "http://homeassistant.local:8123")!).named("homeassistant.local"),
             DNSResolverCheck(hostname: "google.com").named("DNS google"),
-            CertificateCheck(url: URL(string: "https://192.168.21.230:8006")!, expectedCertificateData: Data()).named("proxmox"),
+            CertificateCheck(url: URL(string: "https://192.168.21.230:8006")!,
+                             expectedCertificateData: try! Data(contentsOf: Bundle.main.url(forResource: "proxmox.local", withExtension: "cer")!)).named("proxmox"),
         ]
         super.viewDidLoad()
     }
