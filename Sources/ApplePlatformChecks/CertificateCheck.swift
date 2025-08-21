@@ -1,7 +1,5 @@
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
+import NetTesterLib
 
 final public class CertificateCheck: NSObject, CheckProtocol {
     public var debugInformation: String = ""

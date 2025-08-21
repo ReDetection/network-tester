@@ -1,5 +1,6 @@
 import NetTesterUIKit
 import NetTesterLib
+import ApplePlatformChecks
 import UIKit
 
 class ViewController: ChecklistViewController {
@@ -8,9 +9,11 @@ class ViewController: ChecklistViewController {
         checks = [
             HotspotCheck().named("Default Internet/hotspot detection"),
             HTTPCheck(url: URL(string: "https://ya.ru")!).named("Yandex availability"),
-            HTTPCheck(url: URL(string: "http://192.168.21.149/")!, expectedStatusCode: 404).named("Docker server by IP"),
+            HTTPCheck(url: URL(string: "http://192.168.21.105/")!, expectedStatusCode: 404).named("Docker server by IP"),
             HTTPCheck(url: URL(string: "http://pihole.local/admin/")!).named("DNS pihole.local"),
             HTTPCheck(url: URL(string: "http://homeassistant.local:8123")!).named("homeassistant.local"),
+            DNSResolverCheck(hostname: "google.com").named("DNS google"),
+            CertificateCheck(url: URL(string: "https://192.168.21.230:8006")!, expectedCertificateData: Data()).named("proxmox"),
         ]
         super.viewDidLoad()
     }

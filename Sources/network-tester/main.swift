@@ -7,7 +7,6 @@ checks.append(HTTPCheck(url: URL(string: "https://google.com")!, expectedStatusC
 checks.append(HTTPCheck(url: URL(string: "http://192.168.21.194/")!, expectedStatusCode: 404))
 checks.append(HotspotCheck())
 checks.append(DNSResolverCheck(hostname: "apple.com"))
-checks.append(CertificateCheck(url: URL(string: "https://google.com")!, expectedCertificateData: Data()))
 
 let runner = CheckRunner()
 runner.didUpdate = { check in

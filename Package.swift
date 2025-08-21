@@ -12,6 +12,7 @@ let package = Package(
     products: [
         .library(name: "NetTesterLib", targets: ["NetTesterLib"]),
         .library(name: "NetTesterUIKit", targets: ["NetTesterUIKit"]),
+        .library(name: "ApplePlatformChecks", targets: ["ApplePlatformChecks"]),
         .executable(name: "network-tester", targets: ["network-tester"])
     ],
     dependencies: [
@@ -22,6 +23,7 @@ let package = Package(
             .product(name: "AsyncDNSResolver", package: "swift-async-dns-resolver"),
         ]),
         .target(name: "NetTesterUIKit", dependencies: ["NetTesterLib"]),
+        .target(name: "ApplePlatformChecks", dependencies: ["NetTesterLib"]),
         .executableTarget(
             name: "network-tester",
             dependencies: ["NetTesterLib"]),

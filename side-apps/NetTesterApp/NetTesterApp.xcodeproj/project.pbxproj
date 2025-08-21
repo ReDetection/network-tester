@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		363445282E56078000CC9511 /* NetTesterUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 363445272E56078000CC9511 /* NetTesterUIKit */; };
+		3634452F2E57377C00CC9511 /* ApplePlatformChecks in Frameworks */ = {isa = PBXBuildFile; productRef = 3634452E2E57377C00CC9511 /* ApplePlatformChecks */; };
 		36B7E1952994244900F397A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B7E1942994244900F397A0 /* AppDelegate.swift */; };
 		36B7E1972994244900F397A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B7E1962994244900F397A0 /* SceneDelegate.swift */; };
 		36B7E1992994244900F397A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B7E1982994244900F397A0 /* ViewController.swift */; };
@@ -36,6 +37,7 @@
 			files = (
 				363445282E56078000CC9511 /* NetTesterUIKit in Frameworks */,
 				36B7E1AC2994246800F397A0 /* NetTesterLib in Frameworks */,
+				3634452F2E57377C00CC9511 /* ApplePlatformChecks in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +110,7 @@
 			packageProductDependencies = (
 				36B7E1AB2994246800F397A0 /* NetTesterLib */,
 				363445272E56078000CC9511 /* NetTesterUIKit */,
+				3634452E2E57377C00CC9511 /* ApplePlatformChecks */,
 			);
 			productName = NetTesterApp;
 			productReference = 36B7E1912994244900F397A0 /* NetTesterApp.app */;
@@ -397,6 +400,10 @@
 		363445272E56078000CC9511 /* NetTesterUIKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = NetTesterUIKit;
+		};
+		3634452E2E57377C00CC9511 /* ApplePlatformChecks */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ApplePlatformChecks;
 		};
 		36B7E1AB2994246800F397A0 /* NetTesterLib */ = {
 			isa = XCSwiftPackageProductDependency;
