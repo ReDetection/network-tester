@@ -74,10 +74,11 @@ extension CertificateCheck: URLSessionDelegate, URLSessionTaskDelegate {
         self.receivedCertificate = serverCertificate
         let receivedCertificateData = serverCertificate.data
 
-        self.status = receivedCertificateData == expectedCertificateData ? .success : .failed
-        if self.status == .success {
+        if receivedCertificateData == expectedCertificateData {
+            status = .success
             debugInformation.append("Received expected certificate\n")
         } else {
+            status = .warning
             debugInformation.append("Received unexpected but trusted certificate\n")
         }
 

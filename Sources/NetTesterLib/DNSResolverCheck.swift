@@ -22,6 +22,7 @@ final public class DNSResolverCheck: ThrowableCheck {
         }
 
         debugInformation = aRecords.map(\.address.address).joined(separator: "\n")
+        status = .success //todo expected addresses
     }
 }
 

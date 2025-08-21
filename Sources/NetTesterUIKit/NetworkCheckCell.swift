@@ -31,6 +31,7 @@ extension CheckStatus {
         case .notLaunchedYet: return UIImage(systemName: "alarm")!
         case .inProgress: return UIImage(systemName: "hourglass")!
         case .success: return UIImage(systemName: "checkmark.circle.fill")!
+        case .warning: return UIImage(systemName: "exclamationmark.octagon.fill")!
         case .failed: return UIImage(systemName: "xmark.circle.fill")!
         }
     }
@@ -39,6 +40,7 @@ extension CheckStatus {
         case .notLaunchedYet: return .systemBrown
         case .inProgress: return .systemYellow
         case .success: return .systemGreen
+        case .warning: return .systemYellow
         case .failed: return .systemRed
         }
     }

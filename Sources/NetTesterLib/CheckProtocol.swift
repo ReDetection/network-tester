@@ -4,6 +4,7 @@ public enum CheckStatus: Sendable {
     case notLaunchedYet
     case inProgress
     case success
+    case warning
     case failed
 }
 
