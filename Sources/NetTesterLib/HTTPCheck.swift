@@ -3,49 +3,36 @@ import Foundation
 import FoundationNetworking
 #endif
 
-public class HTTPCheck: CheckProtocol {
-    public var status: CheckStatus
-    public var name: String?
-    var request: URLRequest
-    var statusCode: Int?
-    var expectedCode: Int
+final public class HTTPCheck: ThrowableCheck {
+    let request: URLRequest
+    private(set) var statusCode: Int?
+    let expectedCode: Int
     let timeout: TimeInterval
 
-    public var debugInformation: String = ""
-
     public init(url: URL, expectedStatusCode: Int = 200, timeout: TimeInterval = 10) {
-        status = CheckStatus.notLaunchedYet
-        request = URLRequest(url: url)
+        var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.timeoutInterval = timeout
         expectedCode = expectedStatusCode
         self.timeout = timeout
+        self.request = request
     }
 
-    @discardableResult
-    public func performCheck() async -> CheckStatus {
-        status = .inProgress
+    public override func performThrowableCheck() async throws {
+        let (data, response) = try await URLSession.shared.data(for: request)
 
-        do {
-            let (data, response) = try await URLSession.shared.data(for: request)
-
-            guard let httpResponse = response as? HTTPURLResponse else {
-                status = .failed
-                debugInformation = "no response"
-                return status
-            }
-
-            statusCode = httpResponse.statusCode
-            status = httpResponse.statusCode == expectedCode ? .success : .failed
-
-            if let statusCodeString: String = statusCode?.asString {
-                debugInformation = "status code is \(statusCodeString)\nresponse is \(data.count)"
-            }
-        } catch {
-            debugInformation = error.localizedDescription
+        guard let httpResponse = response as? HTTPURLResponse else {
             status = .failed
+            debugInformation = "no response"
+            return
         }
-        return status
+
+        statusCode = httpResponse.statusCode
+        status = httpResponse.statusCode == expectedCode ? .success : .failed
+
+        if let statusCodeString: String = statusCode?.asString {
+            debugInformation = "status code is \(statusCodeString)\nresponse is \(data.count)"
+        }
     }
 }
 
