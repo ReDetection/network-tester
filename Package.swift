@@ -26,6 +26,9 @@ let package = Package(
         .target(name: "ApplePlatformChecks", dependencies: ["NetTesterLib"]),
         .executableTarget(
             name: "network-tester",
-            dependencies: ["NetTesterLib"]),
+            dependencies: [
+                "NetTesterLib",
+                .byNameItem(name: "ApplePlatformChecks", condition: .when(platforms: [.macOS])),
+            ]),
     ]
 )
