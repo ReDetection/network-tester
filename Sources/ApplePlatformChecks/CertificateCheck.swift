@@ -8,12 +8,17 @@ final public class CertificateCheck: NSObject, CheckProtocol {
     private var session: URLSession?
     private var task: URLSessionTask!
     fileprivate(set) var receivedCertificate: SecCertificate?
-    let expectedCertificateData: Data
+    private(set) var receivedSerialNumber: String?
+    private(set) var receivedCommonName: String?
+    private(set) var receivedEmails: [String]?
+    let expectedCertificateData: Data?
+    let expectedCommonName: String?
     let url: URL
 
-    public init(url: URL, expectedCertificateData: Data) {
+    public init(url: URL, expectedCertificateData: Data? = nil, expectedCommonName: String? = nil) {
         self.url = url
         self.expectedCertificateData = expectedCertificateData
+        self.expectedCommonName = expectedCommonName
         super.init()
         session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
     }
@@ -24,30 +29,40 @@ final public class CertificateCheck: NSObject, CheckProtocol {
         let request = URLRequest(url: url)
         _ = try? await session?.data(for: request)
 
-        extractCertificateData()
         if status == .inProgress {
             status = .failed
         }
         return status
     }
 
-    func extractCertificateData() {
-        if let certificate = self.receivedCertificate, status != .success {
-            var commonNameRef: CFString?
-            SecCertificateCopyCommonName(certificate, &commonNameRef)
-            if let commonName = commonNameRef as String?, commonName.count > 0 {
-                debugInformation.append("CN: \"\(commonName)\"\n")
-            }
-            let serialNumberData = SecCertificateCopySerialNumberData(certificate, nil)
-            if let data = serialNumberData as Data?, data.count > 0 {
-                debugInformation.append("SN: \(data.hexademicalString)\n")
-            }
-            var arrayRef: CFArray?
-            SecCertificateCopyEmailAddresses(certificate, &arrayRef)
-            if let emails = arrayRef as? [String], emails.count > 0 {
-                debugInformation.append("EMAILS: \(emails.joined(separator: ", "))\n")
-            }
+    fileprivate func extractCertificateData(_ certificate: SecCertificate) {
+        var commonNameRef: CFString?
+        SecCertificateCopyCommonName(certificate, &commonNameRef)
+        if let commonName = commonNameRef as String?, commonName.count > 0 {
+            debugInformation.append("CN: \"\(commonName)\"\n")
+            self.receivedCommonName = commonName
         }
+        let serialNumberData = SecCertificateCopySerialNumberData(certificate, nil)
+        if let data = serialNumberData as Data?, data.count > 0 {
+            debugInformation.append("SN: \(data.hexademicalString)\n")
+            receivedSerialNumber = data.hexademicalString
+        }
+        var arrayRef: CFArray?
+        SecCertificateCopyEmailAddresses(certificate, &arrayRef)
+        if let emails = arrayRef as? [String], emails.count > 0 {
+            debugInformation.append("EMAILS: \(emails.joined(separator: ", "))\n")
+            receivedEmails = emails
+        }
+    }
+
+    fileprivate func validate() -> Bool {
+        if let expectedCertificateData, expectedCertificateData != receivedCertificate?.data {
+            return false
+        }
+        if let expectedCommonName, expectedCommonName != receivedCommonName {
+            return false
+        }
+        return true
     }
 
 }
@@ -72,11 +87,11 @@ extension CertificateCheck: URLSessionDelegate, URLSessionTaskDelegate {
         }
 
         self.receivedCertificate = serverCertificate
-        let receivedCertificateData = serverCertificate.data
+        extractCertificateData(serverCertificate)
 
-        if receivedCertificateData == expectedCertificateData {
+        if validate() {
             status = .success
-            debugInformation.append("Received expected certificate\n")
+            debugInformation.append("Certificate accepted\n")
         } else {
             status = .warning
             debugInformation.append("Received unexpected but trusted certificate\n")
