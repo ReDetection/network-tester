@@ -7,15 +7,15 @@ final public class HTTPCheck: ThrowableCheck {
     let url: URL
     let request: URLRequest
     private(set) var statusCode: Int?
-    let expectedCode: Int
+    let expectedStatusCodes: [Int]
     let timeout: TimeInterval
 
-    public init(url: URL, expectedStatusCode: Int = 200, timeout: TimeInterval = 10) {
+    public init(url: URL, expectedStatusCodes: [Int] = [200], timeout: TimeInterval = 10) {
         self.url = url
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.timeoutInterval = timeout
-        expectedCode = expectedStatusCode
+        self.expectedStatusCodes = expectedStatusCodes
         self.timeout = timeout
         self.request = request
     }
@@ -34,7 +34,7 @@ final public class HTTPCheck: ThrowableCheck {
             debugBreadcrumbs.append("response url: \(responseUrl.absoluteString)")
         }
         statusCode = httpResponse.statusCode
-        status = httpResponse.statusCode == expectedCode ? .success : .failed
+        status = expectedStatusCodes.contains(httpResponse.statusCode) ? .success : .failed
 
         if let statusCodeString: String = statusCode?.asString {
             debugBreadcrumbs.append("status code is \(statusCodeString)\nbody length is \(data.count)")

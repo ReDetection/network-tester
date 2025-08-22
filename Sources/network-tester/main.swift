@@ -6,8 +6,8 @@ import ApplePlatformChecks
 
 var checks: [CheckProtocol] = []
 
-checks.append(HTTPCheck(url: URL(string: "https://google.com")!, expectedStatusCode: 200))
-checks.append(HTTPCheck(url: URL(string: "http://192.168.21.194/")!, expectedStatusCode: 404))
+checks.append(HTTPCheck(url: URL(string: "https://google.com")!, expectedStatusCodes: [200]))
+checks.append(HTTPCheck(url: URL(string: "http://192.168.21.194/")!, expectedStatusCodes: [404]))
 checks.append(HotspotCheck())
 checks.append(DNSResolverCheck(hostname: "apple.com"))
 #if os(macOS)
