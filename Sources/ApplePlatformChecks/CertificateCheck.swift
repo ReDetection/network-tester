@@ -2,7 +2,8 @@ import Foundation
 import NetTesterLib
 
 final public class CertificateCheck: NSObject, CheckProtocol {
-    public var debugInformation: String = ""
+    public var debugInformation: String { debugBreadcrumbs.joined(separator: "\n")}
+    private var debugBreadcrumbs: [String] = []
     public var name: String?
     public private(set) var status: CheckStatus = .notLaunchedYet
     private var session: URLSession?
@@ -25,7 +26,7 @@ final public class CertificateCheck: NSObject, CheckProtocol {
 
     public func performCheck() async -> CheckStatus {
         status = .inProgress
-        debugInformation = ""
+        debugBreadcrumbs = []
         let request = URLRequest(url: url)
         _ = try? await session?.data(for: request)
 
@@ -39,18 +40,18 @@ final public class CertificateCheck: NSObject, CheckProtocol {
         var commonNameRef: CFString?
         SecCertificateCopyCommonName(certificate, &commonNameRef)
         if let commonName = commonNameRef as String?, commonName.count > 0 {
-            debugInformation.append("CN: \"\(commonName)\"\n")
+            debugBreadcrumbs.append("CN: \"\(commonName)\"")
             self.receivedCommonName = commonName
         }
         let serialNumberData = SecCertificateCopySerialNumberData(certificate, nil)
         if let data = serialNumberData as Data?, data.count > 0 {
-            debugInformation.append("SN: \(data.hexademicalString)\n")
+            debugBreadcrumbs.append("SN: \(data.hexademicalString)")
             receivedSerialNumber = data.hexademicalString
         }
         var arrayRef: CFArray?
         SecCertificateCopyEmailAddresses(certificate, &arrayRef)
         if let emails = arrayRef as? [String], emails.count > 0 {
-            debugInformation.append("EMAILS: \(emails.joined(separator: ", "))\n")
+            debugBreadcrumbs.append("EMAILS: \(emails.joined(separator: ", "))")
             receivedEmails = emails
         }
     }
@@ -72,8 +73,7 @@ extension CertificateCheck: URLSessionDelegate, URLSessionTaskDelegate {
     public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         guard challenge.protectionSpace.protocol == NSURLProtectionSpaceHTTPS && challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust,
             let serverTrust = challenge.protectionSpace.serverTrust else {
-                debugInformation.append("Got unexpected \(challenge.protectionSpace.authenticationMethod) challenge for \(challenge.protectionSpace.protocol ?? "unknown") protocol. Server trust is " + (challenge.protectionSpace.serverTrust == nil ? "nil" : "not nil"))
-                debugInformation.append("\n")
+            debugBreadcrumbs.append("Got unexpected \(challenge.protectionSpace.authenticationMethod) challenge for \(challenge.protectionSpace.protocol ?? "unknown") protocol. Server trust is " + (challenge.protectionSpace.serverTrust == nil ? "nil" : "not nil"))
                 completionHandler(.performDefaultHandling, nil)
                 return
         }
@@ -81,7 +81,7 @@ extension CertificateCheck: URLSessionDelegate, URLSessionTaskDelegate {
         guard SecTrustEvaluate(serverTrust, &secresult) == errSecSuccess,
             let serverCertificate = SecTrustGetCertificateAtIndex(serverTrust, 0) else {
                 self.status = .failed
-                debugInformation.append("Certificate validation failed\n")
+            debugBreadcrumbs.append("Certificate validation failed")
                 completionHandler(.cancelAuthenticationChallenge, nil)
                 return
         }
@@ -91,17 +91,16 @@ extension CertificateCheck: URLSessionDelegate, URLSessionTaskDelegate {
 
         if validate() {
             status = .success
-            debugInformation.append("Certificate accepted\n")
+            debugBreadcrumbs.append("Certificate accepted")
         } else {
             status = .warning
-            debugInformation.append("Received unexpected but trusted certificate\n")
+            debugBreadcrumbs.append("Received unexpected but trusted certificate")
         }
 
         completionHandler(.cancelAuthenticationChallenge, nil)
     }
 
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        print("the task is done")
     }
 
 }

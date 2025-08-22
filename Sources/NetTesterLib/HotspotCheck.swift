@@ -22,7 +22,7 @@ final public class HotspotCheck: ThrowableCheck {
 
         guard let httpResponse = response as? HTTPURLResponse else {
             status = .failed
-            debugInformation = response.debugDescription
+            debugBreadcrumbs.append(response.debugDescription)
             return
         }
 
@@ -30,11 +30,11 @@ final public class HotspotCheck: ThrowableCheck {
         status = (responseUrl == appleCaptiveCheckURL) ? .success : .failed
 
         if (status == .success) {
-            debugInformation = "hotspot not detected"
+            debugBreadcrumbs.append("hotspot not detected")
 
         } else {
-            debugInformation.append("URL has changed, there's probably a hotspot\n")
-            debugInformation.append("response URL is " + (responseUrl.isEmpty ? "unknowkn" : "\(responseUrl)"))
+            debugBreadcrumbs.append("URL has changed, there's probably a hotspot")
+            debugBreadcrumbs.append("response URL is " + (responseUrl.isEmpty ? "unknown" : "\(responseUrl)"))
         }
 
     }

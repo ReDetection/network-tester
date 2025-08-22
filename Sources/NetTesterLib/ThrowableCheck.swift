@@ -1,6 +1,8 @@
 open class ThrowableCheck: CheckProtocol {
     open var status: CheckStatus = .notLaunchedYet
-    open var debugInformation: String = ""
+    public var debugInformation: String { debugBreadcrumbs.joined(separator: "\n")}
+    open var debugBreadcrumbs: [String] = []
+
     open var name: String?
 
     public func performCheck() async -> CheckStatus {
@@ -10,7 +12,7 @@ open class ThrowableCheck: CheckProtocol {
             try await performThrowableCheck()
 
         } catch {
-            debugInformation = error.localizedDescription
+            debugBreadcrumbs.append(error.localizedDescription)
             status = .failed
         }
         return status

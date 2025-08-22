@@ -22,22 +22,22 @@ final public class HTTPCheck: ThrowableCheck {
 
     public override func performThrowableCheck() async throws {
         let (data, response) = try await URLSession.shared.data(for: request)
-        debugInformation.append("request url: \(url.absoluteString)")
+        debugBreadcrumbs.append("request url: \(url.absoluteString)")
 
         guard let httpResponse = response as? HTTPURLResponse else {
             status = .failed
-            debugInformation = "no response"
+            debugBreadcrumbs.append("no response")
             return
         }
 
         if let responseUrl = httpResponse.url, responseUrl != url {
-            debugInformation.append("response url: \(responseUrl.absoluteString)")
+            debugBreadcrumbs.append("response url: \(responseUrl.absoluteString)")
         }
         statusCode = httpResponse.statusCode
         status = httpResponse.statusCode == expectedCode ? .success : .failed
 
         if let statusCodeString: String = statusCode?.asString {
-            debugInformation = "status code is \(statusCodeString)\nbody length is \(data.count)"
+            debugBreadcrumbs.append("status code is \(statusCodeString)\nbody length is \(data.count)")
         }
     }
 }

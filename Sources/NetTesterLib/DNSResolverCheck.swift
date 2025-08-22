@@ -21,7 +21,7 @@ final public class DNSResolverCheck: ThrowableCheck {
             throw DNSError.emptyARecords
         }
 
-        debugInformation = aRecords.map(\.address.address).joined(separator: "\n")
+        debugBreadcrumbs = aRecords.map(\.address.address)
         status = .success //todo expected addresses
     }
 }
