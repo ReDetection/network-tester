@@ -10,10 +10,10 @@ final public class HTTPCheck: ThrowableCheck {
     let expectedStatusCodes: [Int]
     let timeout: TimeInterval
 
-    public init(url: URL, expectedStatusCodes: [Int] = [200], timeout: TimeInterval = 10) {
+    public init(url: URL, expectedStatusCodes: [Int] = [200], method: String = "GET", timeout: TimeInterval = 10) {
         self.url = url
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        request.httpMethod = method
         request.timeoutInterval = timeout
         self.expectedStatusCodes = expectedStatusCodes
         self.timeout = timeout
