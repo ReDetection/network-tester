@@ -4,12 +4,14 @@ import FoundationNetworking
 #endif
 
 final public class HTTPCheck: ThrowableCheck {
+    let url: URL
     let request: URLRequest
     private(set) var statusCode: Int?
     let expectedCode: Int
     let timeout: TimeInterval
 
     public init(url: URL, expectedStatusCode: Int = 200, timeout: TimeInterval = 10) {
+        self.url = url
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.timeoutInterval = timeout
@@ -20,6 +22,7 @@ final public class HTTPCheck: ThrowableCheck {
 
     public override func performThrowableCheck() async throws {
         let (data, response) = try await URLSession.shared.data(for: request)
+        debugInformation.append("request url: \(url.absoluteString)")
 
         guard let httpResponse = response as? HTTPURLResponse else {
             status = .failed
@@ -27,6 +30,9 @@ final public class HTTPCheck: ThrowableCheck {
             return
         }
 
+        if let responseUrl = httpResponse.url, responseUrl != url {
+            debugInformation.append("response url: \(responseUrl.absoluteString)")
+        }
         statusCode = httpResponse.statusCode
         status = httpResponse.statusCode == expectedCode ? .success : .failed
 
