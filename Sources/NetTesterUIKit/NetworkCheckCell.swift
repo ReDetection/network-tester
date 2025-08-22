@@ -19,7 +19,7 @@ class NetworkCheckCell: UITableViewCell {
             textLabel?.text = check.name ?? "\(type(of: check))"
             imageView?.image = check.status.cellImage
             imageView?.tintColor = check.status.cellImageTint
-            detailTextLabel?.text = check.status == .failed ? check.debugInformation : nil
+            detailTextLabel?.text = [.failed, .warning].contains(check.status) ? check.debugInformation : nil
         }
     }
 }
