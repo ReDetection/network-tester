@@ -37,7 +37,13 @@ final public class HTTPCheck: ThrowableCheck {
         status = expectedStatusCodes.contains(httpResponse.statusCode) ? .success : .failed
 
         if let statusCodeString: String = statusCode?.asString {
-            debugBreadcrumbs.append("status code is \(statusCodeString)\nbody length is \(data.count)")
+            debugBreadcrumbs.append("status code is \(statusCodeString)")
+        }
+        if request.httpMethod != "HEAD" {
+            debugBreadcrumbs.append("body length is \(data.count)")
+        }
+        if let contentType = httpResponse.allHeaderFields["Content-Type"] as? String {
+            debugBreadcrumbs.append(contentType)
         }
     }
 }
